@@ -1,0 +1,15 @@
+---
+- stat:
+    path: "{{ docker_machine_binary_path }}"
+  register: dm
+
+- name: download
+  get_url:
+    url: "{{ docker_machine_url }}"
+    dest: "{{ docker_machine_binary_path }}"
+  when: not dm.stat.exists
+
+- name: configure binary
+  file:
+    path: "{{ docker_machine_binary_path }}"
+    mode: "{{ docker_machine_binary_mode }}"
